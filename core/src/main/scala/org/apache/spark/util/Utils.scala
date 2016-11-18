@@ -52,6 +52,8 @@ import org.apache.spark.deploy.SparkHadoopUtil
 import org.apache.spark.network.util.JavaUtils
 import org.apache.spark.serializer.{DeserializationStream, SerializationStream, SerializerInstance}
 
+import com.roundeights.hasher.Implicits._
+
 /** CallSite represents a place in user code. It can have a short and a long form. */
 private[spark] case class CallSite(shortForm: String, longForm: String)
 
@@ -1628,6 +1630,9 @@ private[spark] object Utils extends Logging {
    */
   def getIteratorSize[T](iterator: Iterator[T]): Long = {
     var count = 0L
+    val str = iterator.mkString
+      println("Iter string >>> "+str)
+      println("Iter hash >>>"+str.sha1)
     while (iterator.hasNext) {
       count += 1L
       iterator.next()
